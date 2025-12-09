@@ -1,8 +1,12 @@
 asgiref==3.9.2
+dj-database-url==3.0.1
 Django==5.2.6
 django-extensions==4.1
+gunicorn==23.0.0
 numpy==2.3.3
+packaging==25.0
 pandas==2.3.2
+psycopg2-binary==2.9.11
 python-dateutil==2.9.0.post0
 pytz==2025.2
 setuptools==80.9.0
@@ -10,3 +14,4 @@ six==1.17.0
 sqlparse==0.5.3
 tzdata==2025.2
 wheel==0.45.1
+whitenoise==6.11.0

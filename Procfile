@@ -1,0 +1,1 @@
+web: gunicorn FSGS.wsgi --log-file -
