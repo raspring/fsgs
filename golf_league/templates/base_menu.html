@@ -1,0 +1,28 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius:10px !important">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+        <li class="active">
+          <a class="nav-link" href="{% url 'golf_league:season_points' %}" role="button">Season Points</a></li>
+        </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="active">
+        <a class="nav-link" href="{% url 'golf_league:handicaps_summary' %}" role="button">Handicaps</a></li>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+        <li class="active">
+          <a class="nav-link" href="{% url 'golf_league:events_list' %}" role="button">Events</a></li>
+        </li>
+    </ul>
+    <ul class="navbar-nav">
+        <li class="active">
+          <a class="nav-link" href="{% url 'admin:index' %}" role="button">Admin</a></li>
+        </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}

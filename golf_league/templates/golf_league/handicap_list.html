@@ -1,0 +1,27 @@
+{% extends 'base_menu.html' %}
+
+{% block content %}
+<p>
+{% if handicap_list %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Player</th>
+      <th scope="col">Most Recent Update</th>
+      <th scope="col">Handicap</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for player in handicap_list %}
+      <tr>
+        <td><a href="{% url 'golf_league:handicaps_detail'  player.golfer.id %}">{{ player.golfer }}</a></td>
+        <td>{{ player.effective_at }}</td>
+        <td>{{ player.handicap }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Error getting handicap list</p>
+{% endif %}
+{% endblock %}

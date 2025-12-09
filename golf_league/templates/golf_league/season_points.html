@@ -1,0 +1,25 @@
+{% extends 'base_menu.html' %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Rank</th>
+      <th scope="col">Name</th>
+      <th scope="col">Total Points</th>
+      <th scope="col">Events Played</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for golfer in rounds %}
+      <tr>
+        <td>{{ golfer.rank }}</td>
+        <td>{{ golfer.event_player__golfer__first_name }} {{ golfer.event_player__golfer__last_name }}</td>
+        <td>{{ golfer.coconut_pts }}</td>
+        <td>{{ golfer.event_count }}</td>
+        <td>{{ players.golfer.event_player__golfer }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

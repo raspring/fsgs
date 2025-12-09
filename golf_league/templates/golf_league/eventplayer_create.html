@@ -1,0 +1,30 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+
+{% if message %}
+<h2>{{ message }}</h2>
+<br>
+{% endif %}
+<h1>Add Existing League Player</h1>
+
+<p>
+  <form action="" method="post" id="upload_form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ event_player_form }}
+    <input type="submit" name="event_player"value="Submit">
+    <input type="submit" value="Cancel">
+  </form>
+</p>
+<br>
+<h1>Add New League Player</h1>
+<p>
+  <form action="" method="post" id="upload_form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ league_player_form }}
+    <input type="submit" name="league_player"value="Submit">
+    <input type="submit" value="Cancel">
+  </form>
+</p>
+
+{% endblock %}

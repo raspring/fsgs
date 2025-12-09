@@ -1,0 +1,40 @@
+{% extends 'base_menu.html' %}
+
+{% block content %}
+<p>
+{% if handicap_list %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Player</th>
+      <th scope="col">Handicap Update Effective Date</th>
+      <th scope="col">Handicap</th>
+      <th scope="col">Comment</th>
+      <th scope="col">Event Date</th>
+      <th scope="col">Gross Score</th>
+      <th scope="col">Net Score</th>
+      <th scope="col">Net to Par</th>
+      <th scope="col">Handicap Adjustment</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for handicap in handicap_list %}
+      <tr>
+        <td>{{ handicap.golfer }}</td>
+        <td>{{ handicap.effective_at }}</td>
+        <td>{{ handicap.handicap }}</td>
+        <td>{{ handicap.update_comment }}</td>
+        <td>{{ handicap.update_golf_round.event_player.league_event.event_date }}</td>
+        <td>{{ handicap.update_golf_round.gross_score }}</td>
+        <td>{{ handicap.update_golf_round.net_score }}</td>
+        <td>{{ handicap.update_golf_round.net_rel_par }}</td>
+        <td>{{ handicap.update_golf_round.handicap_adjustment }}</td>
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Error getting handicap list</p>
+{% endif %}
+{% endblock %}

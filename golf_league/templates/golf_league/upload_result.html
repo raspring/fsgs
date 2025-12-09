@@ -1,0 +1,29 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+
+<h1>Upload Event Results</h1>
+<h1>{{ pk }}</h1>
+<br>
+<h1>{{ row_count }}</h1>
+<br>
+<h1>{{ row }}</h1>
+<br>
+<h1>{{ name }}</h1>
+<br>
+<h1>{{ handicap }}</h1>
+<br>
+<h1>{{ gross }}</h1>
+<br>
+<h1>{{ net }}</h1>
+<br>
+<h1>{{ eventplayer }}</h1>
+<p>
+  <form action="" enctype="multipart/form-data"method="post"> 
+  {% csrf_token %}
+  {{ form }}
+  <br/>
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base_menu.html' %}
+
+{% block content %}
+<p>
+{% if leagueevent_list %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Season</th>
+      <th scope="col">Date</th>
+      <th scope="col">Golf Course</th>
+      <th scope="col">Event Status</th>
+      <th scope="col">Link to Event View</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ad in leagueevent_list %}
+      <tr>
+        <td>{{ ad.leagueseason }}</td>
+        <td>{{ ad.event_date }}</td>
+        <td>{{ ad.event_golf_course }}</td>
+        <td>{{ ad.get_event_status_display }}</td>
+        <td>
+          <a href="{% url 'golf_league:event_detail'  ad.id %}">Link</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>There are no events in the database.</p>
+{% endif %}
+{% endblock %}
+
+<a href="{% url 'ads:ad_detail'  ad.id %}">{{ ad.title }}</a>

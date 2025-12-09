@@ -1,0 +1,91 @@
+{% extends 'base_menu.html' %}
+
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Season</th>
+      <th scope="col">Date</th>
+      <th scope="col">Golf Course</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>{{ leagueevent.leagueseason }}</td>
+        <td>{{ leagueevent.event_date }}</td>
+        <td>{{ leagueevent.event_golf_course }}</td>
+      </tr>
+  </tbody>
+</table>
+<br>
+{% if leagueevent.event_status == "C" %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Place</th>
+      <th scope="col">New Player Flag</th>
+      <th scope="col">Name</th>
+      <th scope="col">HDCP</th>
+      <th scope="col">Gross Score</th>
+      <th scope="col">Net Score</th>
+      <th scope="col">Net Score to Par</th>
+      <th scope="col">Coconut Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for round in playedround %}
+      <tr>
+        <td>{{ round.rank }}</td>
+        <td>{{ round.event_player.new_player_flag }}</td>
+        <td>{{ round.event_player.golfer }}</td>
+        <td>{{ round.event_player.round_handicap.handicap }}</td>
+        <td>{{ round.gross_score }}</td>
+        <td>{{ round.net_score }}</td>
+        <td>{{ round.net_rel_par }}</td>
+        <td>{{ round.coconut_pts }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% if leagueevent.event_status == "N" %}
+
+<br>
+<a href="{% url 'golf_league:event_player_extract' leagueevent.id %}">Extract to Squabbit Template</a>
+<br>
+<!-- <a href="{% url 'golf_league:results_upload' leagueevent.id %}">Upload Event Results</a> -->
+</p>
+
+<a href="{% url 'golf_league:event_player_create' leagueevent.id %}">Add Player</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Handicap</th>
+      <th scope="col">New Player</th>
+      <th scope="col">Remove Player</th>
+      <th scope="col">Update Player</th>
+      <th scope="col">Input Score Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for golfer in eventplayer %}
+      <tr>
+        <td>{{ golfer.golfer }}</td>
+        <td>{{ golfer.round_handicap }}</td>
+        <td>{{ golfer.new_player_flag }}</td>
+        <td><a href="{% url 'golf_league:event_player_delete' golfer.id %}">Remove Player</a></td>
+        <td><a href="{% url 'golf_league:event_player_update' golfer.id %}">Modify Handicap</a></td>
+        {% if golfer.played_round %}
+          <td>{{ golfer.played_round.gross_score }}</td>
+        {% else %}
+          <td><a href="{% url 'golf_league:played_round_create' golfer.id %}">Input Score</a></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endif %}
+{% endblock %}
