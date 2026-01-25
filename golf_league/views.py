@@ -164,12 +164,36 @@ class EventPlayerCreateView(LoginRequiredMixin, View):
 class SeasonPoints_ListView(View):
     template_name = 'golf_league/season_points.html'
     def get(self, request):
-        playedrounds = PlayedRound.objects.filter(event_player__league_event__leagueseason__name = '2025').values('event_player__golfer','event_player__golfer__first_name','event_player__golfer__last_name').annotate(coconut_pts=Sum('coconut_pts')).annotate(event_count=Count('event_player__league_event')).order_by('-coconut_pts')
+        seasons = LeagueSeason.objects.all().order_by('-name')
+        selected_season = request.GET.get('season')
+
+        if selected_season:
+            season_filter = selected_season
+        elif seasons.exists():
+            season_filter = seasons.first().name
+        else:
+            season_filter = None
+
+        if season_filter:
+            playedrounds = PlayedRound.objects.filter(
+                event_player__league_event__leagueseason__name=season_filter
+            ).values(
+                'event_player__golfer',
+                'event_player__golfer__first_name',
+                'event_player__golfer__last_name'
+            ).annotate(
+                coconut_pts=Sum('coconut_pts')
+            ).annotate(
+                event_count=Count('event_player__league_event')
+            ).order_by('-coconut_pts')
+        else:
+            playedrounds = []
+
         temp_list = [x['coconut_pts'] for x in playedrounds]
         for record in playedrounds:
-            record["rank"] = temp_list.index(record['coconut_pts'])+1
+            record["rank"] = temp_list.index(record['coconut_pts']) + 1
 
-        ctx = {'rounds': playedrounds}
+        ctx = {'rounds': playedrounds, 'seasons': seasons, 'selected_season': season_filter}
         return render(request, self.template_name, ctx)
 
 @login_required 

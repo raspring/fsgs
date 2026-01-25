@@ -1,6 +1,17 @@
 {% extends 'base_menu.html' %}
 
 {% block content %}
+<div class="mb-3">
+  <form method="get" class="d-flex align-items-center gap-2">
+    <label for="season" class="form-label mb-0">Season:</label>
+    <select name="season" id="season" class="form-select" style="width: auto;" onchange="this.form.submit()">
+      {% for season in seasons %}
+        <option value="{{ season.name }}" {% if season.name == selected_season %}selected{% endif %}>{{ season.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
 <table class="table">
   <thead>
     <tr>
