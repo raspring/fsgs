@@ -1,1 +1,1 @@
-web: gunicorn FSGS.wsgi --log-file -
+web: python manage.py migrate && gunicorn FSGS.wsgi --log-file -
