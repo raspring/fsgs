@@ -131,11 +131,25 @@ class EventPlayerCreateView(LoginRequiredMixin, View):
                 handicap = Handicap.objects.filter(golfer=leagueplayer)
                 if handicap.exists():
                     new_player_flag = "N"
-                    handicap = handicap.latest('created_at')
-                    eventplayer, created = EventPlayer.objects.get_or_create(golfer=leagueplayer,league_event=league_event,new_player_flag=new_player_flag,round_handicap=handicap)
+                    latest_handicap = handicap.latest('created_at')
+                    round_handicap = Handicap.objects.create(
+                        golfer=leagueplayer,
+                        handicap=latest_handicap.handicap,
+                        effective_at=league_event.date,
+                        update_comment='Event registration'
+                    )
+                    eventplayer, created = EventPlayer.objects.get_or_create(
+                        golfer=leagueplayer,
+                        league_event=league_event,
+                        defaults={'new_player_flag': new_player_flag, 'round_handicap': round_handicap}
+                    )
                 else:
                     new_player_flag = "Y"
-                    eventplayer, created = EventPlayer.objects.get_or_create(golfer=leagueplayer,league_event=league_event,new_player_flag=new_player_flag)
+                    eventplayer, created = EventPlayer.objects.get_or_create(
+                        golfer=leagueplayer,
+                        league_event=league_event,
+                        defaults={'new_player_flag': new_player_flag}
+                    )
                 return redirect(success_url)
         
         if 'league_player' in request.POST:
@@ -155,9 +169,17 @@ class EventPlayerCreateView(LoginRequiredMixin, View):
 
                 effective_dt = datetime.date.today()
                 handicap = Handicap.objects.create(golfer=leagueplayer, handicap=handicap, effective_at=effective_dt,update_comment=update_comment)
-                EventPlayer.objects.get_or_create(golfer=leagueplayer,league_event=league_event,new_player_flag="Y",round_handicap=handicap)
+                EventPlayer.objects.get_or_create(
+                    golfer=leagueplayer,
+                    league_event=league_event,
+                    defaults={'new_player_flag': "Y", 'round_handicap': handicap}
+                )
             else:
-                EventPlayer.objects.get_or_create(golfer=leagueplayer,league_event=league_event,new_player_flag="Y")
+                EventPlayer.objects.get_or_create(
+                    golfer=leagueplayer,
+                    league_event=league_event,
+                    defaults={'new_player_flag': "Y"}
+                )
             
             return redirect(success_url)
         
