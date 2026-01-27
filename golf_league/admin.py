@@ -63,7 +63,7 @@ class LeaguePlayerAdmin(admin.ModelAdmin):
 admin.site.register(LeaguePlayer,LeaguePlayerAdmin)
 
 class HandicapAdmin(admin.ModelAdmin):
-    list_display = ('golfer', 'handicap', 'effective_at', 'update_golf_round')
+    list_display = ('golfer', 'handicap', 'effective_at','created_at', 'update_golf_round')
     ordering = ["-golfer"]
     readonly_fields=('handicap',)
 admin.site.register(Handicap,HandicapAdmin)
