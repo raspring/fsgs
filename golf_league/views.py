@@ -131,7 +131,7 @@ class EventPlayerCreateView(LoginRequiredMixin, View):
                 handicap = Handicap.objects.filter(golfer=leagueplayer)
                 if handicap.exists():
                     new_player_flag = "N"
-                    latest_handicap = handicap.latest('created_at')
+                    latest_handicap = handicap.latest('effective_at')
                     round_handicap = Handicap.objects.create(
                         golfer=leagueplayer,
                         handicap=latest_handicap.handicap,
